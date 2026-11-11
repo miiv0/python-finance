@@ -1,5 +1,11 @@
 import pandas as pd
+from ledger import load_ledger
 
-df = pd.read_excel("data/members_ledger.xlsx", sheet_name="Ledger")
+df = load_ledger("data/members_ledger.xlsx")
 print(df.head())
-print(df.columns)
+print(len(df))
+
+a = df[df["MemberID"] == "A"]
+a = a.sort_values("PostedDate", kind="stable")
+
+df.groupby("Channel")["Amount"].sum()
