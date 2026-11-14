@@ -1,20 +1,11 @@
-import pandas as pd
-from ledger import load_ledger, end_of_day
+from ledger import load_ledger, build_history
 
 df = load_ledger("data/members_ledger.xlsx")
-print(df.head())
-print(len(df))
-
-a = df[df["MemberID"] == "A"]
-a = a.sort_values("PostedDate", kind="stable")
 as_of = df["PostedDate"].max()
-chk = a[a["Account"] == "CHK"]
-first_date = chk["PostedDate"].min()
-daily = end_of_day(a, "CHK", first_date, as_of)
 
-print(len(daily))
-print(daily.head(10))
-print(daily["2025-10-28"])
+h = build_history("A", df[df["MemberID"] == "A"], as_of)
 
-sav = end_of_day(a, "SAV", first_date, as_of)
-print(sav.head())
+print(h.first_date)
+print(len(h.chk))
+print(h.chk["2025-10-28"])
+print(h.sav.head())
