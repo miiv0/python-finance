@@ -27,6 +27,9 @@ class MemberHistory:
     chk: pd.Series
     sav: pd.Series
 
+    def up_to(self, cutoff):
+        return build_history(self.member_id, self.rows, min(cutoff, self.last_date))
+
 def build_history(member_id, rows, as_of):
     rows = rows[rows["PostedDate"] <= as_of].sort_values("PostedDate", kind="stable")
     chk_rows = rows[rows["Account"] == "CHK"]
